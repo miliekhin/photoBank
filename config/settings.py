@@ -132,6 +132,7 @@ THUMBS_URL = '/thumbs/'
 MEDIA_PATH = os.path.join(BASE_DIR, MEDIA_ROOT)
 THUMBS_PATH = os.path.join(MEDIA_PATH, THUMBS_ROOT)
 VIDEO_SLIDESHOW_ROOT = 'video_slideshow'
+VIDEO_SLIDESHOW_URL = '/media/video_slideshow/'
 VIDEO_SLIDESHOW_PATH = os.path.join(MEDIA_PATH, VIDEO_SLIDESHOW_ROOT)
 TEMP_DIR_TOP_PHOTOS_SITE = 'temp_site'
 TEMP_DIR_TOP_PHOTOS_USER = 'temp_user'

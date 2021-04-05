@@ -8,7 +8,7 @@ import shutil
 from PIL import Image
 
 
-def copy_top_photos_to_temp_dir(photos, media_dir, temp_dir) -> None:
+def copy_top_photos_to_temp_dir(photos: list, media_dir: str, temp_dir: str) -> None:
     """Копируем топ картинки во временную папку для создания видеослайдшоу"""
     for i, photo_file in enumerate(photos, start=1):
         photo_file_new = f'top{i:02d}.jpg'
@@ -17,10 +17,9 @@ def copy_top_photos_to_temp_dir(photos, media_dir, temp_dir) -> None:
             im.convert('RGB').save(os.path.join(temp_dir, photo_file_new))
         else:
             shutil.copyfile(os.path.join(media_dir, photo_file), os.path.join(temp_dir, photo_file_new))
-        print(photo_file_new)
 
 
-def prepare_top_photos(photos, is_user) -> str:
+def prepare_top_photos(photos: list, is_user: int) -> str:
     """Подготовка временной папки для копирования картинок"""
     temp_dir = os.path.join(
         settings.VIDEO_SLIDESHOW_PATH,
@@ -32,7 +31,7 @@ def prepare_top_photos(photos, is_user) -> str:
     return temp_dir
 
 
-def get_pic_list(user_id) -> list:
+def get_pic_list(user_id: int) -> list:
     """Возвращает список имен файлов картинок"""
     if user_id:
         photos = Photo.objects.filter(owner_id=user_id, viewed__gt=0)
@@ -54,7 +53,7 @@ def check_ffmpeg_exists() -> str:
     return ffmpeg_path
 
 
-def get_slideshow_path(is_user) -> str:
+def get_slideshow_path(is_user: int) -> str:
     """Возвращает путь к папке слайдшоу"""
     slideshow_path = os.path.join(
         settings.VIDEO_SLIDESHOW_PATH,
@@ -64,7 +63,7 @@ def get_slideshow_path(is_user) -> str:
     return slideshow_path
 
 
-def convert_photos_to_video(ffmpeg_path, slideshow_path, temp_dir):
+def convert_photos_to_video(ffmpeg_path: str, slideshow_path: str, temp_dir: str) -> None:
     """Создание файла видеослайдшоу из картинок"""
     sp = subprocess.run(
         [ffmpeg_path, '-y', '-framerate', f'1/{settings.VIDEO_SLIDESHOW_FRAME_DURATION_SEC}',
@@ -76,7 +75,7 @@ def convert_photos_to_video(ffmpeg_path, slideshow_path, temp_dir):
         raise Exception('Video Encoding Error: ' + str(sp.stderr))
 
 
-def build_video_slideshow(user_id) -> None:
+def build_video_slideshow(user_id: int) -> None:
     """Подготовка и cоздание видеофайла слайдшоу в формате webm"""
     ffmpeg_path = check_ffmpeg_exists()
     slideshow_path = get_slideshow_path(user_id)

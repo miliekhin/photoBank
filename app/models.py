@@ -23,7 +23,7 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 
 
 class Photo(models.Model):
-
+    """Модель фото"""
     def create_thumbnail(self):
         src_image = os.path.join(settings.MEDIA_PATH, self.file_name.name)
         target_image = os.path.join(

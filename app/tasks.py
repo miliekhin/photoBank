@@ -30,14 +30,18 @@ def collect_top_users_emails(top_viewed) -> set:
     return user_emails
 
 
-@db_periodic_task(crontab(minute='0', hour='9', day='*/1'))
-def send_emails_top_site_photos():
-    """Отправка письма юзеру каждый день в 9 утра о том что его фото в топ 3 сайта"""
+def send_emails_to_top_users():
     message = UserTopNotifyMessage.objects.all()[0]
     message_list = []
     user_emails = collect_top_users_emails(settings.TOP_VIEWED_PHOTOS)
     for email in user_emails:
         message_list.append((message.subject, message.message, message.from_email, [email]))
     if message_list:
-        send_mass_mail(message_list, fail_silently=False)
+        return send_mass_mail(message_list, fail_silently=False)
     return 0
+
+
+@db_periodic_task(crontab(minute='0', hour='9', day='*/1'))
+def send_emails_top_site_photos():
+    """Отправка письма юзеру каждый день в 9 утра о том что его фото в топ 3 сайта"""
+    send_emails_to_top_users()

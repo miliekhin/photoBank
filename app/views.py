@@ -17,7 +17,7 @@ def slider_user(request, user_id):
     if user_id:
         slideshow_file = settings.TOP_PHOTOS_SLIDESHOW_FILE_NAME_USER
 
-    return redirect(f'/media/video_slideshow/{slideshow_file}')
+    return redirect(settings.VIDEO_SLIDESHOW_URL + slideshow_file)
 
 
 def slider_site(request):
