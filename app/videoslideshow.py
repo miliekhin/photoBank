@@ -1,5 +1,4 @@
 import os
-from pathlib import Path
 import subprocess
 from django.conf import settings
 from app.models import Photo
@@ -47,7 +46,7 @@ def get_pic_list(user_id: int) -> list:
 
 def check_ffmpeg_exists() -> str:
     """Проверяет наличие файла ffmpeg.exe в папке виртуального окружения"""
-    ffmpeg_path = Path(settings.BASE_DIR).joinpath('venv', 'Scripts', 'ffmpeg.exe')
+    ffmpeg_path = os.path.join(settings.BASE_DIR, 'venv', 'Scripts', 'ffmpeg.exe')
     if not os.path.exists(ffmpeg_path):
         raise FileNotFoundError('ffmpeg module not found.')
     return ffmpeg_path

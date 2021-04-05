@@ -5,12 +5,14 @@ import json
 from django.core.files.uploadedfile import SimpleUploadedFile
 from PIL import Image
 import io
+import os
 from django.conf import settings
 from .tasks import send_emails_to_top_users
 from django.contrib.auth.models import User
 from .models import UserTopNotifyMessage, Photo
 import mock
 from django.core.files import File
+from .videoslideshow import check_ffmpeg_exists
 
 
 class PhotoAppTestCase(TestCase):
@@ -78,3 +80,7 @@ class PhotoAppTestCase(TestCase):
         # Проверяем что слайдшоу доступно
         self.assertRedirects(response,
                              settings.VIDEO_SLIDESHOW_URL + settings.TOP_PHOTOS_SLIDESHOW_FILE_NAME_USER)
+
+    def test_ffmpeg_module_exists_success(self):
+        resp = check_ffmpeg_exists()
+        self.assertEqual(resp, os.path.join(settings.BASE_DIR, 'venv', 'Scripts', 'ffmpeg.exe'))
