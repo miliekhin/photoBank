@@ -13,7 +13,9 @@ class PhotoSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_thumbnail(self, obj):
-        return f'{settings.THUMBS_URL}{os.path.splitext(obj.file_name.name)[0]}.webp'
+        request = self.context.get('request')
+        url = f'{request.scheme}://{request.get_host()}{settings.THUMBS_URL}{os.path.splitext(obj.file_name.name)[0]}.webp'
+        return url
 
 
 class PhotoCreationSerializer(serializers.ModelSerializer):

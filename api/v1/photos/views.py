@@ -21,7 +21,7 @@ class PhotosViewSetAll(ModelViewSet):
         photo = get_object_or_404(Photo, pk=pk)
         photo.viewed += 1
         photo.save()
-        serializer = PhotoSerializer(photo)
+        serializer = PhotoSerializer(photo, context={"request": request})
         return Response(serializer.data)
 
 
